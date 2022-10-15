@@ -85,83 +85,29 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 // @import 'front/fonts';
 // @import 'front/icons';
 
-html,
-body {
-  height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-footer {
-  flex-shrink: 0;
-  color: var(--bs-yellow);
-}
-
-.container.parallax-section {
-  @include media-breakpoint-down(lg) {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-.bg-yellow {
-  background-color: var(--bs-yellow);
-}
-
 .bg-primary-light {
   background-color: var(--bs-primary-light);
-}
-
-.banner {
-  background-color: var(--bs-dark);
-  width: 100%;
-  align-items: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-
-  .banner-title {
-    font-family: $scriptFront;
-    padding-bottom: 1em;
-    text-align: center;
-
-    @include media-breakpoint-up(sm) {
-      padding-bottom: unset;
-      text-align: unset;
-    }
-  }
 }
 
 .navbar {
   color: var(--bs-primary);
 
-  .social-link {
-    // .facebook {
-    //   @include svg-icon(facebook, 16px);
-    //   @include svg-primary();
-    // }
+  // .social-link {
+  //   .facebook {
+  //     @include svg-icon(facebook, 16px);
+  //     @include svg-primary();
+  //   }
 
-    // .google {
-    //   @include svg-icon(google, 16px);
-    //   @include svg-primary();
-    // }
+  //   .google {
+  //     @include svg-icon(google, 16px);
+  //     @include svg-primary();
+  //   }
 
-    // .instagram {
-    //   @include svg-icon(instagram, 16px);
-    //   @include svg-primary();
-    // }
-  }
+  //   .instagram {
+  //     @include svg-icon(instagram, 16px);
+  //     @include svg-primary();
+  //   }
+  // }
 
   .navbar-brand {
     color: var(--bs-secondary);
@@ -185,110 +131,6 @@ footer {
       padding: 2rem;
     }
   }
-}
-
-.parallax-section {
-  .parallax-container {
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-
-    @include media-breakpoint-up(sm) {
-      height: 500px;
-    }
-
-    @include media-breakpoint-only(md) {
-      height: 465px;
-    }
-
-    .content {
-      flex-basis: 100%;
-    }
-
-    .scene {
-      position: absolute;
-      width: 100%;
-      transform: translateY(var(--ty));
-      will-change: transform;
-    }
-  }
-
-  #bookingFormContent {
-    position: relative;
-
-    .toast {
-      z-index: 999999;
-      width: 100%;
-    }
-
-    .content {
-      padding: 1rem 1rem;
-
-      @include media-breakpoint-up(sm) {
-        padding: 0 5rem;
-      }
-
-      @include media-breakpoint-only(md) {
-        padding: 0 2rem;
-      }
-
-      .scroll-to-schedule {
-        color: var(--bs-yellow);
-        text-decoration: none;
-      }
-    }
-  }
-
-  #scheduleContent {
-    .content {
-      color: var(--bs-secondary);
-      padding: 2rem 1rem;
-
-      @include media-breakpoint-up(sm) {
-        padding: 2rem 1rem;
-      }
-
-      #uxGMBContent {
-        .hours {
-          display: flex;
-          flex-direction: column;
-          color: var(--bs-primary);
-          width: 270px;
-          padding: 5px 0;
-
-          .week-day {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-basis: 100%;
-            padding: 7px 8px;
-
-            .day-name {
-              text-transform: uppercase;
-            }
-
-            .day-hours {
-              font-weight: 600;
-              width: 50%;
-              // white-space: nowrap;
-              text-align: right;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.content {
-  h2 {
-    color: var(--bs-yellow);
-    font-family: $scriptFront;
-  }
-}
-
-p.scroll-to-schedule {
-  color: var(--bs-yellow);
 }
 
 #footerContent {
