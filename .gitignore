@@ -35,6 +35,7 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
+build
 build/Release
 
 # Dependency directories
@@ -102,3 +103,14 @@ dist
 
 # TernJS port file
 .tern-port
+
+Movefile
+yarn.lock
+db/
+www/
+src-starter/
+src/.env
+src/includes/vendor/
+src/node_modules/
+_resources/
+.DS_Store

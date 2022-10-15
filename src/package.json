@@ -1,0 +1,14 @@
+{
+  "name": "ux",
+  "version": "0.1.0",
+  "description": "Redbridge Insurance",
+  "author": {
+    "name": "AuxCoder",
+    "email": "auxcoder@gmail.com",
+    "url": "http://auxcoder.com/"
+  },
+  "private": true,
+  "dependencies": {
+    "sanitize.css": "^8.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+# Fabrica Dev Kit setup configuration
+# Modify for your project, then run `fdk setup` from this folder
+
+# Project settings
+slug: ux # lowercase letters only (also used for theme slug and PHP namespacing)
+title: Redbridge Insurance
+author:
+  name: AuxCoder
+  email: auxcoder@gmail.com
+  url: http://auxcoder.com/
+
+# WordPress settings
+wp:
+  admin: # development site admin user credentials
+    user: auxcoder
+    pass: 4uxc0d3r
+    email: auxcoder@gmail.com
+  lang: en_US # dev site WP locale/language
+  rewrite_structure: /%postname%/ # dev site permalink structure (can be changed later)
+  # acf_pro_key: # optional (if set will preinstall Advanced Custom Fields Pro)
+  plugins: # optional (installs plugins at setup - use URL slugs from WP plugins directory)
+    - advanced-custom-fields
+    - custom-post-type-ui
+    - wordpress-importer
+    - force-regenerate-thumbnails
+    - contact-form-7
+    - polylang
+    - wordpress-seo
+# Google Analytics - optional (will preset tracking code in theme, can be added manually later)
+# google_analytics_id:
