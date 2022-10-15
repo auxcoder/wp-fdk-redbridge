@@ -133,7 +133,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   }
 }
 
-#footerContent {
+#footer {
   #logoFooter {
     @include media-breakpoint-down(sm) {
       text-align: center;
