@@ -1,0 +1,370 @@
+@import 'sanitize.css';
+/*
+@import 'common/variables.css';
+@import 'common/fonts.css';
+@import 'common/tags.css';
+@import 'common/blocks.css';
+@import 'front/tags.css';
+@import 'front/furniture.css';
+@import 'front/content.css';
+@import 'front/utility.css';
+@import 'front/print.css';
+*/
+
+@import 'front/content';
+// @import 'front/mixins';
+
+// Required
+@import "../../../node_modules/bootstrap/scss/functions";
+
+$enable-shadows: true;
+$scriptFront: 'Kaikoura W05 Regular';
+$container-max-widths: (
+  'sm': 540px,
+  'md': 768px,
+  'lg': 960px,
+  'xl': 1140px,
+  'xxl': 1240px
+);
+$min-contrast-ratio: 3.8;
+
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/utilities";
+
+$custom-colors: (
+  'primary': #278e9e,
+  'secondary': #E6362F,
+  'yellow': #ffeb53,
+  'primary-light': lighten(#278e9e, 10),
+  'secondary-light': lighten(#E6362F, 10)
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// @import '../../../node_modules/bootstrap/scss/bootstrap';
+
+// Layout & components
+@import "../../../node_modules/bootstrap/scss/root";
+@import "../../../node_modules/bootstrap/scss/reboot";
+@import "../../../node_modules/bootstrap/scss/type";
+// @import "../../../node_modules/bootstrap/scss/images";
+@import "../../../node_modules/bootstrap/scss/containers";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/tables";
+@import "../../../node_modules/bootstrap/scss/forms";
+@import "../../../node_modules/bootstrap/scss/buttons";
+@import "../../../node_modules/bootstrap/scss/transitions";
+// @import "../../../node_modules/bootstrap/scss/dropdown";
+// @import "../../../node_modules/bootstrap/scss/button-group";
+@import "../../../node_modules/bootstrap/scss/nav";
+@import "../../../node_modules/bootstrap/scss/navbar";
+@import "../../../node_modules/bootstrap/scss/card";
+// @import "../../../node_modules/bootstrap/scss/accordion";
+// @import "../../../node_modules/bootstrap/scss/breadcrumb";
+// @import "../../../node_modules/bootstrap/scss/pagination";
+// @import "../../../node_modules/bootstrap/scss/badge";
+// @import "../../../node_modules/bootstrap/scss/alert";
+// @import "../../../node_modules/bootstrap/scss/progress";
+// @import "../../../node_modules/bootstrap/scss/list-group";
+@import "../../../node_modules/bootstrap/scss/close";
+@import "../../../node_modules/bootstrap/scss/toasts";
+// @import "../../../node_modules/bootstrap/scss/modal";
+// @import "../../../node_modules/bootstrap/scss/tooltip";
+// @import "../../../node_modules/bootstrap/scss/popover";
+// @import "../../../node_modules/bootstrap/scss/carousel";
+// @import "../../../node_modules/bootstrap/scss/spinners";
+
+// Helpers
+@import "../../../node_modules/bootstrap/scss/helpers";
+
+// Utilities
+@import "../../../node_modules/bootstrap/scss/utilities/api";
+
+// @import 'front/daterangepicker';
+// @import 'front/fonts';
+// @import 'front/icons';
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+  color: var(--bs-yellow);
+}
+
+.container.parallax-section {
+  @include media-breakpoint-down(lg) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.bg-yellow {
+  background-color: var(--bs-yellow);
+}
+
+.bg-primary-light {
+  background-color: var(--bs-primary-light);
+}
+
+.banner {
+  background-color: var(--bs-dark);
+  width: 100%;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+
+  .banner-title {
+    font-family: $scriptFront;
+    padding-bottom: 1em;
+    text-align: center;
+
+    @include media-breakpoint-up(sm) {
+      padding-bottom: unset;
+      text-align: unset;
+    }
+  }
+}
+
+.navbar {
+  color: var(--bs-primary);
+
+  .social-link {
+    // .facebook {
+    //   @include svg-icon(facebook, 16px);
+    //   @include svg-primary();
+    // }
+
+    // .google {
+    //   @include svg-icon(google, 16px);
+    //   @include svg-primary();
+    // }
+
+    // .instagram {
+    //   @include svg-icon(instagram, 16px);
+    //   @include svg-primary();
+    // }
+  }
+
+  .navbar-brand {
+    color: var(--bs-secondary);
+    font-family: $scriptFront;
+  }
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--bs-primary);
+}
+
+.logo {
+  text-align: center;
+
+  img {
+    padding: 2rem;
+    max-width: 375px;
+
+    @include media-breakpoint-up(sm) {
+      max-width: 450px;
+      padding: 2rem;
+    }
+  }
+}
+
+.parallax-section {
+  .parallax-container {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+
+    @include media-breakpoint-up(sm) {
+      height: 500px;
+    }
+
+    @include media-breakpoint-only(md) {
+      height: 465px;
+    }
+
+    .content {
+      flex-basis: 100%;
+    }
+
+    .scene {
+      position: absolute;
+      width: 100%;
+      transform: translateY(var(--ty));
+      will-change: transform;
+    }
+  }
+
+  #bookingFormContent {
+    position: relative;
+
+    .toast {
+      z-index: 999999;
+      width: 100%;
+    }
+
+    .content {
+      padding: 1rem 1rem;
+
+      @include media-breakpoint-up(sm) {
+        padding: 0 5rem;
+      }
+
+      @include media-breakpoint-only(md) {
+        padding: 0 2rem;
+      }
+
+      .scroll-to-schedule {
+        color: var(--bs-yellow);
+        text-decoration: none;
+      }
+    }
+  }
+
+  #scheduleContent {
+    .content {
+      color: var(--bs-secondary);
+      padding: 2rem 1rem;
+
+      @include media-breakpoint-up(sm) {
+        padding: 2rem 1rem;
+      }
+
+      #uxGMBContent {
+        .hours {
+          display: flex;
+          flex-direction: column;
+          color: var(--bs-primary);
+          width: 270px;
+          padding: 5px 0;
+
+          .week-day {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-basis: 100%;
+            padding: 7px 8px;
+
+            .day-name {
+              text-transform: uppercase;
+            }
+
+            .day-hours {
+              font-weight: 600;
+              width: 50%;
+              // white-space: nowrap;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.content {
+  h2 {
+    color: var(--bs-yellow);
+    font-family: $scriptFront;
+  }
+}
+
+p.scroll-to-schedule {
+  color: var(--bs-yellow);
+}
+
+#footerContent {
+  #logoFooter {
+    @include media-breakpoint-down(sm) {
+      text-align: center;
+      padding-bottom: 2rem;
+    }
+  }
+
+  .widget-title {
+    color: var(--bs-yellow);
+    font-family: $scriptFront;
+
+    @include media-breakpoint-down(sm) {
+      text-align: center;
+    }
+  }
+
+  .menu {
+    padding-left: 1em;
+
+    @include media-breakpoint-down(sm) {
+      text-align: center;
+      padding: 0;
+    }
+
+    list-style: none;
+
+    .menu-item a {
+      text-decoration: none;
+      color: var(--bs-yellow);
+    }
+  }
+}
+
+.font-custom {
+  font-family: $scriptFront;
+}
+
+#contact .content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+footer {
+  .social-media {
+    display: flex;
+
+    @include media-breakpoint-up(sm) {
+      flex-direction: column;
+    }
+  }
+
+  .social-link {
+    .icon {
+      margin-right: 7px;
+    }
+
+    a {
+      color: var(--bs-yellow);
+    }
+
+    // .facebook {
+    //   @include svg-icon(facebook, 22px);
+    //   @include svg-yellow();
+    // }
+
+    // .google {
+    //   @include svg-icon(google, 22px);
+    //   @include svg-yellow();
+    // }
+
+    // .instagram {
+    //   @include svg-icon(instagram, 22px);
+    //   @include svg-yellow();
+    // }
+  }
+}
