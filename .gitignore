@@ -106,6 +106,7 @@ dist
 
 Movefile
 yarn.lock
+plugins/
 db/
 www/
 src-starter/
