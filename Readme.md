@@ -7,14 +7,17 @@
 
 ---
 
-### Running the master Webpack during active development
+## Running the master Webpack during active development
 
 * To start developing, run `fdk start` in the project folder. FDK will tell you which dynamic port the site front-end, admin and database are accessible at for this session, for example:
 
-### Local database access
+---
+
+## Local database access
 
 For direct MySQL access to the development database, you can use an app such as [Sequel Pro](https://www.sequelpro.com/) while the development machine is up. The database server is accessible at `127.0.0.1`, and with the dynamic port which you'll be told when you run `fdk start` (see example output above). The username, password and database name are are `wordpress`.
 
+---
 
 ## Deploy
 
