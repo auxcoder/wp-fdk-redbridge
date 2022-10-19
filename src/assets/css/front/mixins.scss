@@ -1,0 +1,26 @@
+@mixin svg-icon($fileName, $x: 26px, $y: null) {
+  width: $x;
+
+  @if not ($y) {
+    // @debug "$boolean is #{$x}";
+    height: $x;
+  }
+
+  @else {
+    height: $y;
+  }
+
+  background-image: url('../img/#{$fileName}.svg');
+}
+
+@mixin svg-primary {
+  filter: invert(40%) sepia(13%) hue-rotate(145deg) saturate(3207%);
+}
+
+@mixin svg-danger {
+  filter: invert(40%) sepia(23%) hue-rotate(300deg) saturate(3207%);
+}
+
+@mixin svg-yellow {
+  filter: invert(77%) sepia(23%) hue-rotate(21deg) saturate(3207%);
+}

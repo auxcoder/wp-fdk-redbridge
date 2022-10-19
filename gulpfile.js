@@ -39,9 +39,8 @@ let scriptBuildTime, styleBuildTime;
 let packageData = {};
 try {
   packageData = require('./src/package.json');
-} catch (ex) {
-  console.error('Error loading source `package.json` file.', ex);
-  // return;
+} catch (error) {
+  console.error('Error loading source `package.json` file.', error);
 }
 
 const settings = {
@@ -50,32 +49,30 @@ const settings = {
   author: packageData.author
 };
 
+// set settings for Docker, Web and DB ports
 try {
   settings.webPort = exec('docker-compose port web 80').toString().replace(/^.*:(\d+)\n$/g, '$1');
   settings.dbPort = exec('docker-compose port db 3306').toString().replace(/^.*:(\d+)\n$/g, '$1');
-} catch (ex) {
-  console.error('Error obtaining containers access ports.', ex);
-  // return;
+} catch (error) {
+  console.error('Error obtaining containers access ports.', error);
 }
 
 // Load optional imports file
 try {
   settings.imports = yaml.load(fs.readFileSync('./config/imports.yml', 'utf8'));
-} catch (ex) {
+} catch (error) {
+  console.error('error loading imports.yml:', error);
   settings.imports = {}; // ignore
 }
 settings.imports.plugins = settings.imports.plugins || [];
 settings.imports.plugins = settings.imports.plugins.map(function(pluginOrPath) {
-  var plugin = (pluginOrPath instanceof Object) ? pluginOrPath : { path: pluginOrPath };
-
+  const plugin = (pluginOrPath instanceof Object) ? pluginOrPath : { path: pluginOrPath };
   plugin.path = path.resolve(plugin.path.replace(/^~/, require('os').homedir()));
   plugin.watch = plugin.watch || '**/*.{php,css,js}';
   plugin.watchPath = path.join(plugin.path, plugin.watch);
   plugin.include = plugin.include || '**';
   plugin.src = [path.join(plugin.path, plugin.include)];
-  if (plugin.exclude) {
-    plugin.src.push('!' + path.join(plugin.path, plugin.exclude));
-  }
+  if (plugin.exclude) plugin.src.push('!' + path.join(plugin.path, plugin.exclude));
 
   return plugin;
 });
@@ -90,15 +87,15 @@ const base = {
 };
 
 // Source files for compilation
-var src = {
+const src = {
   functions: base.src + 'includes/*.php',
   includes: base.src + 'includes/**/*.php',
   controllers: base.src + 'templates/controllers/**/*.php',
   views: base.src + 'templates/views/**/*.twig',
   images: base.src + 'assets/img/**/*',
   fonts: base.src + 'assets/fonts/**/*',
-  styles: base.src + 'assets/css/*.css',
-  stylesGlob: base.src + 'assets/css/**/*.css', /* also watch included files */
+  styles: base.src + 'assets/css/*.scss',
+  stylesGlob: base.src + 'assets/**/*.scss', /* also watch included files */
   scripts: base.src + 'assets/js/*.js',
   scriptsGlob: base.src + 'assets/js/**/*.js' /* also watch included files */
 };
@@ -120,20 +117,22 @@ var options = {
   uglify: { mangle: false },
   imageminPlugins: imagemin.svgo({
     plugins: [
-      // @ts-ignore
-      { cleanupIDs: false }
+      {
+        name: 'cleanupIDs',
+        active: false
+      }
     ]
   }),
   imagemin: { optimizationLevel: 7, progressive: true, interlaced: true, multipass: true },
   postcss: [
-    // @ts-ignore
     postcssImport({ plugins: [stylelint()] }),
     postcssEasyMediaQuery,
     postcssMixins,
     postcssEach,
-    // @ts-ignore
+    postcssSimpleVars,
     postcssSimpleVars({
-      unknown: function (node, name, result) {
+      variables: {blue: '#056ef0'},
+      unknown:  function (node, name, result) {
         node.warn(result, 'Unknown variable ' + name);
       }
     }),
@@ -153,7 +152,7 @@ var options = {
 // Erase build and theme folders before each compile
 function clean() {
   return del([base.theme], {force: true})
-    .then(function() {
+    .then(function () {
       fs.mkdirSync(base.theme);
     });
 }
@@ -202,12 +201,12 @@ function views() {
 
 // Styles (CSS): lint write source map, preprocess, save full and minified versions, then copy
 function styles() {
-  styleBuildTime = Date.now();
+  styleBuildTime = new Date().getTime();
   return gulp.src(src.styles)
     .pipe(
       sass({ outputStyle: 'expanded' })
         .on('error', function (err) {
-          console.log(err.message)
+          console.error(err.message)
           this.emit('end')
         })
     )
@@ -221,8 +220,12 @@ function styles() {
     .pipe(gulp.dest(base.theme + dest.styles))
     .pipe(browserSync.stream())
     .pipe(cssNano())
-    .pipe(rename(function(path){
-      path.basename += '.' + styleBuildTime + ".min";
+    .on('error', function(error) {
+      console.error(error.message)
+      this.emit('end')
+    })
+    .pipe(rename({
+      suffix: `.${styleBuildTime}.min`
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(base.theme + dest.styles))
@@ -231,13 +234,13 @@ function styles() {
 
 // Scripts (JS): get third-party dependencies, concatenate all scripts into one file, save full and minified versions, then copy
 function scripts() {
-  scriptBuildTime = Date.now();
+  scriptBuildTime = new Date().getTime();
   return gulp.src(src.scripts)
     // @ts-ignore
     .pipe(named())
     // @ts-ignore
     .pipe(webpack(require('./webpack.config.js')))
-    .on('error', function(error) {
+    .on('error', function (error) {
       console.error(error.message);
       this.emit('end');
     })
@@ -245,7 +248,7 @@ function scripts() {
     .pipe(gulp.dest(base.theme + dest.scripts))
     .pipe(browserSync.stream())
     .pipe(uglify(options.uglify))
-    .pipe(rename(function(path){
+    .pipe(rename(function (path) {
       path.basename += '.' + scriptBuildTime + ".min";
     }))
     .pipe(sourcemaps.write('.'))
@@ -257,19 +260,29 @@ function scripts() {
 function functions(cb) {
   fs.writeFileSync(base.theme + 'functions.php', '<?php\r\ndefine(\'SCRIPT_BUILD_TIME\', \'' + scriptBuildTime + '\');\r\ndefine(\'STYLE_BUILD_TIME\', \'' + styleBuildTime + '\');\r\n');
   return gulp.src(src.functions)
-    .pipe(tap(function(file) {
+    .pipe(tap(function (file) {
       fs.appendFileSync(base.theme + 'functions.php', "require_once(get_stylesheet_directory() . '/" + dest.includes + file.path.replace(file.base, '') + "');\r\n");
     }));
 }
 
-// Images: optimize and copy, maintaining tree
-function images() {
+function images () {
   return gulp.src(src.images)
     .pipe(changed(base.theme + dest.images))
-    // @ts-ignore
-    .pipe(imagemin([options.imageminPlugins, options.imagemin]))
+    .pipe(imagemin([
+      options.imageminPlugins,
+      imagemin.optipng({ optimizationLevel: 5 }),
+      imagemin.gifsicle({
+        interlaced: true,
+        optimizationLevel: 7
+      }),
+      imagemin.mozjpeg({
+        quality: 75,
+        progressive: true
+      })
+    ]))
+    // .pipe(imagemin([options.imageminPlugins, options.imagemin]))
     .pipe(gulp.dest(base.theme + dest.images))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.stream())
 }
 
 // Fonts: just copy, maintaining tree
@@ -281,9 +294,11 @@ function fonts() {
 }
 
 // Imports: extra folders to be copied
-function imports(cb) {
-  var importsPipes = [];
-  settings.imports.plugins.forEach(function(plugin) {
+function importsPlugins(cb) {
+  console.log('Starting importing plugins in dev...');
+  const importsPipes = [];
+  settings.imports.plugins.forEach(function (plugin) {
+    // todo: check if path is valid
     importsPipes.push(
       gulp.src(plugin.src, { base: path.dirname(plugin.path) })
         .pipe(changed(base.plugins))
@@ -363,8 +378,8 @@ function watch() {
   gulp.watch(src.scriptsGlob, gulp.series(scripts, functions));
   gulp.watch(src.images, gulp.series(images));
   gulp.watch(src.fonts, gulp.series(fonts));
-  settings.imports.plugins.forEach(function(plugin) {
-    gulp.watch(plugin.watchPath, gulp.series(imports));
+  settings.imports.plugins.forEach(function (plugin) {
+    gulp.watch(plugin.watchPath, gulp.series(importsPlugins));
   });
 }
 
@@ -375,7 +390,7 @@ function deploy(cb) {
 
 // Build: sequences all the other tasks
 // gulp.task('build', gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, imports, wordMove)));
-const build = gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, imports, wordMove));
+const build = gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, importsPlugins, wordMove));
 
 // Wpconfig: update Docker dynamic ports in Wordpress config
 // gulp.task('wpconfig', wpconfig);
