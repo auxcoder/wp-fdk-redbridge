@@ -39,9 +39,8 @@ let scriptBuildTime, styleBuildTime;
 let packageData = {};
 try {
   packageData = require('./src/package.json');
-} catch (ex) {
-  console.error('Error loading source `package.json` file.', ex);
-  // return;
+} catch (error) {
+  console.error('Error loading source `package.json` file.', error);
 }
 
 const settings = {
@@ -50,32 +49,30 @@ const settings = {
   author: packageData.author
 };
 
+// set settings for Docker, Web and DB ports
 try {
   settings.webPort = exec('docker-compose port web 80').toString().replace(/^.*:(\d+)\n$/g, '$1');
   settings.dbPort = exec('docker-compose port db 3306').toString().replace(/^.*:(\d+)\n$/g, '$1');
-} catch (ex) {
-  console.error('Error obtaining containers access ports.', ex);
-  // return;
+} catch (error) {
+  console.error('Error obtaining containers access ports.', error);
 }
 
 // Load optional imports file
 try {
   settings.imports = yaml.load(fs.readFileSync('./config/imports.yml', 'utf8'));
-} catch (ex) {
+} catch (error) {
+  console.error('error loading imports.yml:', error);
   settings.imports = {}; // ignore
 }
 settings.imports.plugins = settings.imports.plugins || [];
 settings.imports.plugins = settings.imports.plugins.map(function(pluginOrPath) {
-  var plugin = (pluginOrPath instanceof Object) ? pluginOrPath : { path: pluginOrPath };
-
+  const plugin = (pluginOrPath instanceof Object) ? pluginOrPath : { path: pluginOrPath };
   plugin.path = path.resolve(plugin.path.replace(/^~/, require('os').homedir()));
   plugin.watch = plugin.watch || '**/*.{php,css,js}';
   plugin.watchPath = path.join(plugin.path, plugin.watch);
   plugin.include = plugin.include || '**';
   plugin.src = [path.join(plugin.path, plugin.include)];
-  if (plugin.exclude) {
-    plugin.src.push('!' + path.join(plugin.path, plugin.exclude));
-  }
+  if (plugin.exclude) plugin.src.push('!' + path.join(plugin.path, plugin.exclude));
 
   return plugin;
 });
@@ -209,7 +206,7 @@ function styles() {
     .pipe(
       sass({ outputStyle: 'expanded' })
         .on('error', function (err) {
-          console.log(err.message)
+          console.error(err.message)
           this.emit('end')
         })
     )
@@ -297,9 +294,11 @@ function fonts() {
 }
 
 // Imports: extra folders to be copied
-function imports(cb) {
-  var importsPipes = [];
+function importsPlugins(cb) {
+  console.log('Starting importing plugins in dev...');
+  const importsPipes = [];
   settings.imports.plugins.forEach(function (plugin) {
+    // todo: check if path is valid
     importsPipes.push(
       gulp.src(plugin.src, { base: path.dirname(plugin.path) })
         .pipe(changed(base.plugins))
@@ -380,7 +379,7 @@ function watch() {
   gulp.watch(src.images, gulp.series(images));
   gulp.watch(src.fonts, gulp.series(fonts));
   settings.imports.plugins.forEach(function (plugin) {
-    gulp.watch(plugin.watchPath, gulp.series(imports));
+    gulp.watch(plugin.watchPath, gulp.series(importsPlugins));
   });
 }
 
@@ -391,7 +390,7 @@ function deploy(cb) {
 
 // Build: sequences all the other tasks
 // gulp.task('build', gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, imports, wordMove)));
-const build = gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, imports, wordMove));
+const build = gulp.series(clean, gulp.parallel(header, acf, includes, controllers, views, styles, scripts, functions, images, fonts, importsPlugins, wordMove));
 
 // Wpconfig: update Docker dynamic ports in Wordpress config
 // gulp.task('wpconfig', wpconfig);
