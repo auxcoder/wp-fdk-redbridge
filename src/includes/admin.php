@@ -38,12 +38,22 @@ class Admin extends Singleton
 
   public function enqueueAdminAssets()
   {
-    wp_enqueue_style(Project::$namespace . '-admin', get_stylesheet_directory_uri() . '/css/admin' . Project::$styleSuffix . '.css', array(), null);
+    wp_enqueue_style(
+      Project::$namespace . '-admin',
+      get_stylesheet_directory_uri() . '/css/admin' . Project::$styleSuffix . '.css',
+      array(),
+      null
+    );
   }
 
   public function enqueueBlockAssets()
   {
-    wp_enqueue_script(Project::$namespace . '-blocks', get_stylesheet_directory_uri() .  '/js/blocks' . Project::$scriptSuffix . '.js', array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), null);
+    wp_enqueue_script(
+      Project::$namespace . '-blocks',
+      get_stylesheet_directory_uri() .  '/js/blocks' . Project::$scriptSuffix . '.js',
+      array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'),
+      null
+    );
   }
 }
 
