@@ -9,8 +9,6 @@
  */
 
 $data = \Timber\Timber::get_context();
-// $data['post'] = new \Timber\Post();
 $data['countries'] = \Timber\Timber::get_terms('countries');
-$data['footer'] = \Timber\Timber::get_sidebar('footer.php');
-$data['nonce'] = wp_create_nonce("abc");
+$data['session'] = $_SESSION;
 \Timber\Timber::render('home.twig', $data);

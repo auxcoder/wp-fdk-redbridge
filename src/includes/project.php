@@ -14,7 +14,7 @@ class Project extends Singleton
   public static $namespace = 'uxc';
 
   // Tag for passing data to front-end scripts
-  public static $varsTag = 'uxc_script_vars';
+  public static $varsTag = 'tag';
 
   // Handle for front-end assets
   public static $frontHandle = 'uxc-front';
