@@ -28,12 +28,23 @@ class Ajax extends Singleton
   // Send script variables to front end
   public function updateScriptVars($scriptVars = array())
   {
+    // exposed as window[Project::$varsTag].nameSpaced.adminAjax
+    $scriptVars = array_merge($scriptVars, array(
+      'nameSpaced' => array(
+        'hostUrl' => __(get_site_url(), Project::$namespace),
+        'ajaxUrl' => __(admin_url('admin-ajax.php'), Project::$namespace),
+        'postNonce' => wp_create_nonce($this->postNonce),
+      )
+    ));
 
     // Non-destructively merge script variables according to page or query conditions
     if (is_single()) {
+      // exposed as window[Project::$varsTag].nameSpaced.key1
       $scriptVars = array_merge($scriptVars, array(
-        'ajaxUrl' => admin_url('admin-ajax.php'),
-        'postNonce' => wp_create_nonce($this->postNonce),
+        'nameSpaced' => array(
+          'key1' => __('value one', Project::$namespace),
+          'key2' => __('value two', Project::$namespace)
+        )
       ));
     }
     return $scriptVars;
