@@ -21,8 +21,8 @@ class Ajax extends Singleton
     add_filter(Project::$varsTag, array($this, 'scriptVars'));
 
     // AJAX handler functions as required
-    add_action('wp_ajax_nopriv_AJAX-ACTION', array($this, 'ajaxHandler'));
-    add_action('wp_ajax_AJAX-ACTION', array($this, 'ajaxHandler'));
+    add_action('wp_ajax_nopriv_setCountry', array($this, 'ajaxHandler'));
+    add_action('wp_ajax_setCountry', array($this, 'ajaxHandler'));
   }
 
   // Send script variables to front end
@@ -64,10 +64,10 @@ class Ajax extends Singleton
     }
 
     // Retrieve submitted data
-    // $postID = $_POST['postID'];
+    $termID = $_POST['termId'];
 
     // Act on it
-
+    $_SESSION['country'] = isset($termID) ? $termID : null;
     // Add data to response + send!
     $this->sendAjaxResponse(array('success' => true));
   }
