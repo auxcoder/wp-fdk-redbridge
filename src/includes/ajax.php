@@ -18,7 +18,7 @@ class Ajax extends Singleton
 
   public function init()
   {
-    add_filter(Project::$varsTag, array($this, 'updateScriptVars'));
+    add_filter(Project::$varsTag, array($this, 'scriptVars'));
 
     // AJAX handler functions as required
     add_action('wp_ajax_nopriv_AJAX-ACTION', array($this, 'ajaxHandler'));
@@ -26,7 +26,7 @@ class Ajax extends Singleton
   }
 
   // Send script variables to front end
-  public function updateScriptVars($scriptVars = array())
+  public function scriptVars($scriptVars = array())
   {
     // exposed as window[Project::$varsTag].nameSpaced.adminAjax
     $scriptVars = array_merge($scriptVars, array(
@@ -58,6 +58,7 @@ class Ajax extends Singleton
     } else {
       $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
     }
+
     if (!wp_verify_nonce($nonce, $this->postNonce)) {
       $this->sendAjaxResponse(array('success' => false, 'error' => 'Invalid nonce.'));
     }
