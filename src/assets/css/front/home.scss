@@ -1,0 +1,12 @@
+#home {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .cell {
+    min-width: 25%;
+    min-height: 15rem;
+    border: 1px solid var(--bs-primary);
+    background: var(--bs-gray-400);
+  }
+}

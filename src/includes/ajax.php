@@ -7,60 +7,82 @@ namespace Fabrica\Devkit;
 
 require_once('project.php');
 
-class Ajax extends Singleton {
+class Ajax extends Singleton
+{
 
-	public function __construct() {
-		// Namespaced tags
-		$this->postNonce = Project::$namespace . '-post-nonce';
-	}
+  public function __construct()
+  {
+    // Namespaced tags
+    $this->postNonce = Project::$namespace . '-post-nonce';
+  }
 
-	public function init() {
-		add_filter(Project::$varsTag, array($this, 'updateScriptVars'));
+  public function init()
+  {
+    add_filter(Project::$varsTag, array($this, 'scriptVars'));
 
-		// AJAX handler functions as required
-		add_action('wp_ajax_nopriv_AJAX-ACTION', array($this, 'ajaxHandler'));
-		add_action('wp_ajax_AJAX-ACTION', array($this, 'ajaxHandler'));
-	}
+    // AJAX handler functions as required
+    add_action('wp_ajax_nopriv_setCountry', array($this, 'ajaxHandler'));
+    add_action('wp_ajax_setCountry', array($this, 'ajaxHandler'));
+  }
 
-	// Send script variables to front end
-	public function updateScriptVars($scriptVars = array()) {
+  // Send script variables to front end
+  public function scriptVars($scriptVars = array())
+  {
+    // exposed as window[Project::$varsTag].nameSpaced.adminAjax
+    $scriptVars = array_merge($scriptVars, array(
+      'nameSpaced' => array(
+        'hostUrl' => __(get_site_url(), Project::$namespace),
+        'ajaxUrl' => __(admin_url('admin-ajax.php'), Project::$namespace),
+        'postNonce' => wp_create_nonce($this->postNonce),
+      )
+    ));
 
-		// Non-destructively merge script variables according to page or query conditions
-		if (is_single()) {
-			$scriptVars = array_merge($scriptVars, array(
-				'ajaxUrl' => admin_url('admin-ajax.php'),
-				'postNonce' => wp_create_nonce($this->postNonce),
-			));
-		}
-		return $scriptVars;
-	}
+    // Non-destructively merge script variables according to page or query conditions
+    if (is_single()) {
+      // exposed as window[Project::$varsTag].nameSpaced.key1
+      $scriptVars = array_merge($scriptVars, array(
+        'nameSpaced' => array(
+          'key1' => __('value one', Project::$namespace),
+          'key2' => __('value two', Project::$namespace)
+        )
+      ));
+    }
+    return $scriptVars;
+  }
 
-	// Handle AJAX requests
-	public function ajaxHandler() {
-		if (isset($_POST['postNonce'])) {
-			$nonce = $_POST['postNonce'];
-		} else {
-			$this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
-		}
-		if (!wp_verify_nonce($nonce, $this->postNonce)) {
-			$this->sendAjaxResponse(array('success' => false, 'error' => 'Invalid nonce.'));
-		}
+  // Handle AJAX requests
+  public function ajaxHandler()
+  {
+    if (isset($_POST['postNonce'])) {
+      $nonce = $_POST['postNonce'];
+    } else {
+      $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
+    }
 
-		// Retrieve submitted data
-		// $postID = $_POST['postID'];
+    if (!wp_verify_nonce($nonce, $this->postNonce)) {
+      $this->sendAjaxResponse(array('success' => false, 'error' => 'Invalid nonce.'));
+    }
 
-		// Act on it
+    // Retrieve submitted data
+    $termID = $_POST['termId'];
+    if (!$termID) {
+      $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
+    }
 
-		// Add data to response + send!
-		$this->sendAjaxResponse(array('success' => true));
-	}
+    // Act on it
+    $_SESSION['country'] = isset($termID) ? $termID : null;
+    $country = get_term($termID);
+    // Add data to response + send!
+    $this->sendAjaxResponse(array('success' => true, 'data' => $country));
+  }
 
-	// Send AJAX responses
-	public function sendAjaxResponse($response) {
-		header('Content-Type: application/json');
-		echo json_encode($response);
-		exit;
-	}
+  // Send AJAX responses
+  public function sendAjaxResponse($response)
+  {
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+  }
 }
 
 // Create a singleton instance of Ajax
