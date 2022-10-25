@@ -31,7 +31,7 @@ const stylelint = require('stylelint');
 const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
 const yaml = require('js-yaml');
-const {error} = require('console');
+const gutil = require('gulp-util')
 // Initialize assets timestamps, later set by respective functions, and used by functions()
 let scriptBuildTime, styleBuildTime;
 
@@ -248,6 +248,9 @@ function scripts() {
     .pipe(gulp.dest(base.theme + dest.scripts))
     .pipe(browserSync.stream())
     .pipe(uglify(options.uglify))
+    .on('error', function (err) {
+      gutil.log(gutil.colors.red('[Error]'), err.toString());
+    })
     .pipe(rename(function (path) {
       path.basename += '.' + scriptBuildTime + ".min";
     }))
