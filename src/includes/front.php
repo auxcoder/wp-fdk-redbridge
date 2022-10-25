@@ -18,12 +18,15 @@ class Front extends Singleton
     }
 
     add_action('wp_enqueue_scripts', array($this, 'enqueueAssets'));
+    // Frontend specific tags, hooks and initializations
+    // Fires authenticated Ajax actions for logged-in users.
+    add_action('wp_ajax_seCountry', array($this, 'seCountryFn'));
+    // Fires non-authenticated Ajax actions for logged-out users.
+    add_action('wp_ajax_nopriv_seCountry', array($this, 'seCountryFn'));
+    // add_action('action_name', array($this, 'actionHandlerFn'));
+    // filters
     add_filter(Project::$varsTag, array($this, 'updateScriptVars'));
-
-    // Front-end-specific tags, hooks and initializations
-
-    // add_action('action_name', array($this, 'actionHandler'));
-    // add_filter('filter_name', array($this, 'filterHandler'));
+    // add_filter('filter_name', array($this, 'filterHandlerFn'));
   }
 
   public function enqueueAssets()
