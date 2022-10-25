@@ -2,7 +2,7 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 
 (function () {
   // @ts-ignore
-  const {postNonce, ajaxUrl} = window.uxc.nameSpaced;
+  const {postNonce, ajaxUrl, hostUrl} = window.uxc.nameSpaced;
 
   const dropdownElementList = document.querySelectorAll('.dropdown-item')
   const dropdownList = [...dropdownElementList].map(elm => {
@@ -14,7 +14,8 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
         try {
           const data = {termId: taxonomyId, action: 'setCountry', postNonce: postNonce}
           const res = await postData(ajaxUrl, data);
-          alert(res);
+          // @ts-ignore
+          window.location = `${hostUrl}/${res.data.slug}`;
         } catch (error) {
           console.error(error);
         }

@@ -65,11 +65,15 @@ class Ajax extends Singleton
 
     // Retrieve submitted data
     $termID = $_POST['termId'];
+    if (!$termID) {
+      $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
+    }
 
     // Act on it
     $_SESSION['country'] = isset($termID) ? $termID : null;
+    $country = get_term($termID);
     // Add data to response + send!
-    $this->sendAjaxResponse(array('success' => true));
+    $this->sendAjaxResponse(array('success' => true, 'data' => $country));
   }
 
   // Send AJAX responses
