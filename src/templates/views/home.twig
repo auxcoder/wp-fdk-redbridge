@@ -35,7 +35,10 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="selectCountry">
           {% for country in countries %}
-            <a class="dropdown-item" href="{{ site.link }}/archive/?country={{ country.id }}">{{ country.name }}</a>
+            <button type="button" class="dropdown-item"
+              id="{{country.id}}">
+              {{country.name}}
+            </button>
           {% endfor %}
         </div>
       </div>
