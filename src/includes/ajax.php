@@ -19,7 +19,6 @@ class Ajax extends Singleton
   public function init()
   {
     add_filter(Project::$varsTag, array($this, 'scriptVars'));
-
     // AJAX handler functions as required
     add_action('wp_ajax_nopriv_setCountry', array($this, 'ajaxHandler'));
     add_action('wp_ajax_setCountry', array($this, 'ajaxHandler'));
@@ -64,14 +63,13 @@ class Ajax extends Singleton
     }
 
     // Retrieve submitted data
-    $termID = $_POST['termId'];
-    if (!$termID) {
-      $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve nonce."));
+    if (!isset($_POST['termId'])) {
+      $this->sendAjaxResponse(array('success' => false, 'error' => "Couldn't retrieve termId."));
     }
 
     // Act on it
-    $_SESSION['country'] = isset($termID) ? $termID : null;
-    $country = get_term($termID);
+    $_SESSION['country'] = isset($_POST['termId']) ? $_POST['termId'] : null;
+    $country = get_term($_POST['termId']);
     // Add data to response + send!
     $this->sendAjaxResponse(array('success' => true, 'data' => $country));
   }

@@ -3,7 +3,6 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 (function () {
   // @ts-ignore
   const {postNonce, ajaxUrl, hostUrl} = window.uxc.nameSpaced;
-
   const dropdownElementList = document.querySelectorAll('.dropdown-item')
   const dropdownList = [...dropdownElementList].map(elm => {
     elm.addEventListener('click', async (e) => {
@@ -12,10 +11,10 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 
       if (taxonomyId) {
         try {
-          const data = {termId: taxonomyId, action: 'setCountry', postNonce: postNonce}
-          const res = await postData(ajaxUrl, data);
+          const params = {termId: taxonomyId, action: 'setCountry', postNonce: postNonce}
+          const res = await postData(ajaxUrl, params);
           // @ts-ignore
-          window.location = `${hostUrl}/${res.data.slug}`;
+          window.location = `${hostUrl}/countries/${res.data.slug}`;
         } catch (error) {
           console.error(error);
         }
