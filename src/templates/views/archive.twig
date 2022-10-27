@@ -3,10 +3,10 @@
 {% block content %}
   <h1>{{ title }}</h1>
 
-  <main id="archiveTwig">
+  <main class="container" id="archiveTwig">
 		{% for post in posts %}
 			<article>
-				<h1><a href="{{ post.link }}">{{ post.title }}</a></h1>
+				<h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
 				{{ post.content }}
 			</article>
 		{% endfor %}
