@@ -1,8 +1,14 @@
 {
   "cSpell.words": [
+    "auxcoder",
+    "Fabrica",
     "gutil",
+    "namespacing",
     "nopriv",
-    "subpackage"
+    "polylang",
+    "postname",
+    "subpackage",
+    "uxcrb"
   ],
   "intelephense.files.exclude": [
     "**/.git/**",
