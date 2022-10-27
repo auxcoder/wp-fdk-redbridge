@@ -104,6 +104,9 @@ dist
 # TernJS port file
 .tern-port
 
+# compressed stuff
+*.zip
+
 Movefile
 yarn.lock
 plugins/

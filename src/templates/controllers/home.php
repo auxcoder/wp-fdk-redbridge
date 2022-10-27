@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Home Parallax
+ * Template Name: Home Page
  * Description: A Page Template with a parallax design.
  * @package    UXC
  * @subpackage Timber
@@ -9,6 +9,9 @@
  */
 
 $data = \Timber\Timber::get_context();
-$data['countries'] = \Timber\Timber::get_terms('countries');
-$data['session'] = $_SESSION;
+$data['countries'] = \Timber\Timber::get_terms([
+  'taxonomy' => 'countries',
+  'orderby'  => 'slug',
+]);
+$data['country'] = $_SESSION['country'];
 \Timber\Timber::render('home.twig', $data);

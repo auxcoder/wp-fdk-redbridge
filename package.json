@@ -1,7 +1,7 @@
 {
-  "name": "fdk-project",
+  "name": "uxc-fdk-redbridge",
   "version": "2.1.9",
-  "description": "Redbridge Project",
+  "description": "Redbridge Insurance",
   "repository": {
     "type": "git",
     "url": "https://github.com/auxcoder"

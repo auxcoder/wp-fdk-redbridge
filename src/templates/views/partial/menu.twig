@@ -1,0 +1,9 @@
+{% if menu %}
+	<ul class="nav navbar-nav navbar-right">
+		{% for item in menu %}
+			<li class="{{item.classes | join(' ')}}">
+				<a href="{{item.get_link}}">{{item.title}}</a> {% include "partial/menu.twig" with {'menu': item.get_children} %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endif %}

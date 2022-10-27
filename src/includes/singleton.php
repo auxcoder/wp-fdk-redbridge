@@ -31,12 +31,12 @@ class Singleton
   }
 
   // Private __sleep method, so instance can't be serialized
-  private function __sleep()
+  public function __sleep()
   {
   }
 
   // Private __wakeup method, so instance can't be unsterilized
-  private function __wakeup()
+  public function __wakeup()
   {
   }
 }

@@ -1,4 +1,4 @@
-<header block="header" id="header">
+<header block="header" id="headerTwig">
 	<nav elem="menu" class="navbar navbar-expand-lg navbar-light bg-yellow shadow-lg">
 		<div class="container">
 			<a elem="brand" class="navbar-brand" href="{{ site.url }}">{{ site.name }}</a>
@@ -12,7 +12,7 @@
 					{% for item in menus.main.get_items %}
 						<li elem="menuItem" class="{{item.classes | join(' ')}}">
 							<a class="nav-link" href="{{item.get_link}}">{{item.title}}</a>
-							{% include "menu.twig" with {'menu': item.get_children} %}
+							{% include "partial/menu.twig" with {'menu': item.get_children} %}
 						</li>
 					{% endfor %}
 				</ul>
@@ -38,15 +38,3 @@
 		</div>
 	</nav>
 </header>
-
-{# <header block="siteHeader">
-		<a elem="logo" href="{{ site.url }}">{{ site.name }}</a>
-		<nav elem="menu">
-			<h1 class="hidden">Main menu</h1>
-			<ul elem="menuList">
-				{% for item in menus.main.get_items -%}
-					<li elem="menuItem" class="{{ item.class }}"><a elem="menuLink" href="{{ item.get_link }}">{{ item.title }}</a></li>
-				{% endfor -%}
-			</ul>
-		</nav>
-	</header> #}

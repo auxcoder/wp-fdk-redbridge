@@ -1,12 +1,21 @@
 {
-	"authors": [{"name":"AuxCoder","email":"auxcoder@gmail.com","homepage":"http://auxcoder.com/"}],
-	"require": {
-		"timber/timber":"1.*",
-		"upstatement/routes": "*"
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	}
+  "authors": [
+    {
+      "name": "AuxCoder",
+      "email": "auxcoder@gmail.com",
+      "homepage": "http://auxcoder.com/"
+    }
+  ],
+  "require": {
+    "timber/timber": "1.*",
+    "upstatement/routes": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    },
+    "platform": {
+      "php": "7.3.3"
+    }
+  }
 }
