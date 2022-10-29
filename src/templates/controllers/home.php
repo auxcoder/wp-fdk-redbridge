@@ -13,5 +13,5 @@ $data['countries'] = \Timber\Timber::get_terms([
   'taxonomy' => 'countries',
   'orderby'  => 'slug',
 ]);
-$data['country'] = $_SESSION['country'];
+$data['country'] = $_SESSION['country'] ?: 'us';
 \Timber\Timber::render('home.twig', $data);
