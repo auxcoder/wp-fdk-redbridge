@@ -303,6 +303,24 @@ We have compiled them in the quick reference table below in order to help our cl
 | Zimbabwe                                     | ZW           | ZWE          | 716     |
 | Åland Islands                                | AX           | ALA          | 248     |
 
+
+- Anguilla - AI
+- Argentina - AR
+- Barbados - BB
+- Bolivia - BO
+- Costa Rica - CR
+- El Salvador - SV
+- Estados Unidos - US
+- Guatemala - GT
+- México - MX
+- Panamá - PA
+- Paraguay - PY
+- Perú - PE
+- Puerto Rico - PR
+- República Dominicana - DO
+- Uruguay - UY
+- Venezuela - VE
+
 ## Widgets
 
 - <https://github.com/sawan34/tanzi/tree/master/wp-content/themes/redwaves-lite/functions>

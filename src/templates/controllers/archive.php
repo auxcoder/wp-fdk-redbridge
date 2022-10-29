@@ -1,6 +1,7 @@
 <?php
 
 $data = \Timber\Timber::get_context();
+$country = $_SESSION['country'] ?: 'us';
 $data['posts'] = \Timber\Timber::get_posts(array(
   'post_type'    => 'page',
   'posts_per_page' => -1,

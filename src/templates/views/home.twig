@@ -14,44 +14,23 @@
 <body class="{{ body_class }}">
 
 {% block content %}
-<div class="container">
-	<div id="homeTwig" >
-		<div class="cell">&nbsp;</div>
-		<div class="cell">&nbsp;</div>
-		<div class="cell">&nbsp;</div>
-    <div class="cell">&nbsp;</div>
+<div class="container" id="homeTwig">
+  <div class="row countries-selection">
+    <h4 class="col-md-3 col-12 countries-selection-label">Select Your Location</h4>
 
-    <div class="cell">&nbsp;</div>
-    <div class="cell d-flex align-items-center align-center justify-content-center">
-      <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle"
-          data-bs-toggle="dropdown"
-          id="selectCountry"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false">
-          Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="selectCountry">
-          {% for country in countries %}
-            <button type="button" class="dropdown-item"
-              id="{{country.id}}">
-              {{country.name}}
-            </button>
-          {% endfor %}
+    <div class="col-md-9 col-12 countries-group">
+      <div class="row">
+        {% for country in countries %}
+        <div class="col-6 country-group-item">
+          <a href="/countries/{{country.slug}}" type="button" class="country-link w-100" id="{{country.id}}">
+            {{country.name}}
+          </a>
         </div>
+        {% endfor %}
       </div>
     </div>
-    <div class="cell">&nbsp;</div>
-    <div class="cell">&nbsp;</div>
-
-    <div class="cell">&nbsp;</div>
-    <div class="cell">&nbsp;</div>
-    <div class="cell">&nbsp;</div>
-    <div class="cell">&nbsp;</div>
-	</div>
-</div>
+  </div>
+</div>˜
 {% endblock %}
 
 {{ function('wp_footer') }}
