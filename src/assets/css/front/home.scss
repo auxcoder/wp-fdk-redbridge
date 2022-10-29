@@ -1,12 +1,50 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../node_modules/bootstrap/scss/maps";
+@import '../../../../node_modules/bootstrap/scss/mixins';
+
 #homeTwig {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 90vh;
 
-  .cell {
-    min-width: 25%;
-    min-height: 15rem;
-    border: 1px solid var(--bs-primary);
-    background: var(--bs-gray-400);
+  .countries-selection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 600px;
+    margin: 0 auto;
+
+    .countries-selection-label {
+      padding-right: 2rem;
+    }
+
+    .countries-group {
+      .country-group-item {
+        padding: .8rem;
+        display: flex;
+        align-items: center;
+        transition: all;
+
+        &:hover,
+        &:has(:focus) {
+          box-shadow: $box-shadow-lg;
+          border-radius: .5rem;
+          transition: all;
+        }
+
+        .country-link {
+          text-transform: uppercase;
+          text-decoration: none;
+          color: var(--bs-gray-600);
+
+          &:focus {
+            outline: none;
+            color: var(--bs-gray-800);
+          }
+        }
+      }
+    }
   }
 }
