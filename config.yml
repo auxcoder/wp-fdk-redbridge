@@ -1,0 +1,27 @@
+default:
+  plugins:
+    - path: ./plugins/wp-session-manager
+      # glob for files to watch
+      watch: "**/*.{php,png,jpg}"
+      # glob for files to copy
+      include: "**"
+      # glob for files to ignore
+      exclude: "**/.git*"
+  themes:
+    - ./src
+  ftp:
+    - host: fdkserver.dev
+    - user: fdk
+    - password: fdk
+    - path: /public-html
+
+staging:
+  plugins:
+    - ../../plugins/fabrica-shared-block
+  themes:
+    - ./src/themes/fdk-theme
+  ftp:
+    - host: staging.fdkserver.dev
+    - user: staging
+    - password: staging
+    - path /staging
