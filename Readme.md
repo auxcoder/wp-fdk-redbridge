@@ -32,6 +32,7 @@ A new Movefile is generated from a Gulp task (wordmove). Databases with
 ---
 
 ### Troubleshooting and housekeeping
+
 If you run into any problems during development, restarting the Docker machine may help. Stop FDK with ctrl + c and then run `fdk dc restart` followed by `fdk start` again.
 
 Multiple projects' Docker servers running simultaneously can hog system resources, so you can safely suspend any projects not currently being developed with `fd dc stop` in the project folder (or from the Docker Dashboard). Equally it is safe to run `fdk remove` which removes the project's containers altogether (the local database is preserved); to set them up again you can run `fdk setup --reinstall`.
@@ -292,7 +293,7 @@ We have compiled them in the quick reference table below in order to help our cl
 | Uruguay                                      | UY           | URY          | 858     |
 | Uzbekistan                                   | UZ           | UZB          | 860     |
 | Vanuatu                                      | VU           | VUT          | 548     |
-| Venezuela (Bolivarian Republic of)           | VE           | VEN          | 862     |
+| Venezuela                                    | VE           | VEN          | 862     |
 | Viet Nam                                     | VN           | VNM          | 704     |
 | Virgin Islands (British)                     | VG           | VGB          | 092     |
 | Virgin Islands (U.S.)                        | VI           | VIR          | 850     |
@@ -324,3 +325,8 @@ We have compiled them in the quick reference table below in order to help our cl
 ## Widgets
 
 - <https://github.com/sawan34/tanzi/tree/master/wp-content/themes/redwaves-lite/functions>
+
+## Questions
+
+- Cual es la relación entre paises e idiomas?
+-
